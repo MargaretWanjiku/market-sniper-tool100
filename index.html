@@ -1,0 +1,325 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Sniper Tool - Precision Digit Signals</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#0e1117',
+                            card: '#161b22',
+                            border: '#21262d',
+                            green: '#00e676',
+                            greenHover: '#00c853',
+                            blue: '#007bff',
+                            blueHover: '#0056b3',
+                            red: '#ff3355',
+                            accent: '#1f293d'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Inter Font & FontAwesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0e1117;
+            color: #ffffff;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #21262d;
+            border-radius: 4px;
+        }
+        @keyframes spin-slow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .animate-spin-slow {
+            animation: spin-slow 1.5s linear infinite;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-brand-green selection:text-black">
+
+    <!-- APP HEADER -->
+    <header class="w-full bg-brand-dark/90 backdrop-blur border-b border-brand-border sticky top-0 z-50 px-4 py-3">
+        <div class="max-w-md mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-2 cursor-pointer" onclick="navigateTo('landing')">
+                <div class="w-8 h-8 rounded-lg bg-brand-green/10 flex items-center justify-center text-brand-green">
+                    <i class="fa-solid fa-bolt text-lg"></i>
+                </div>
+                <span class="font-bold text-lg tracking-tight text-white">Market Sniper Tool</span>
+            </div>
+            <button onclick="handlePrimaryAccess()" class="bg-brand-green hover:bg-brand-greenHover text-black text-xs font-bold px-3 py-2 rounded-lg transition-all shadow-lg shadow-brand-green/10">
+                Access Tool
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN APPLICATION CONTAINER -->
+    <main class="w-full max-w-md mx-auto flex-1 p-4 flex flex-col justify-center">
+
+        <!-- ========================================== -->
+        <!-- STEP 1: LANDING PAGE                       -->
+        <!-- ========================================== -->
+        <section id="page-landing" class="space-y-8 py-6">
+            <!-- Hero Content -->
+            <div class="text-center space-y-4">
+                <h1 class="text-4xl font-extrabold tracking-tight text-white leading-tight">
+                    Market Sniper Tool
+                </h1>
+                <p class="text-brand-green font-semibold text-lg">
+                    Precision digit signals built for Volatility Indices.
+                </p>
+                <p class="text-gray-400 text-sm max-w-xs mx-auto">
+                    Advanced prediction tool for Volatility Indices with real-time WebSocket connectivity.
+                </p>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="space-y-3 pt-2">
+                <button onclick="navigateTo('signin')" class="w-full bg-brand-green hover:bg-brand-greenHover text-black font-bold py-3.5 px-4 rounded-xl text-base transition-all shadow-lg shadow-brand-green/20 flex items-center justify-center gap-2">
+                    Get Access <i class="fa-solid fa-arrow-right text-xs"></i>
+                </button>
+                <button onclick="scrollToPricing()" class="w-full bg-brand-card hover:bg-brand-border text-gray-300 font-semibold py-3.5 px-4 rounded-xl text-base border border-brand-border transition-all">
+                    View Pricing
+                </button>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-2 gap-3 pt-4">
+                <div class="bg-brand-card border border-brand-border rounded-2xl p-5 text-center space-y-1">
+                    <div class="text-2xl font-bold text-white">High</div>
+                    <div class="text-xs text-gray-400 font-medium uppercase tracking-wider">Signal Accuracy</div>
+                </div>
+                <div class="bg-brand-card border border-brand-border rounded-2xl p-5 text-center space-y-1">
+                    <div class="text-2xl font-bold text-white">10+</div>
+                    <div class="text-xs text-gray-400 font-medium uppercase tracking-wider">Signals Per Day</div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ========================================== -->
+        <!-- STEP 2: SIGN IN / AUTH PAGE                -->
+        <!-- ========================================== -->
+        <section id="page-signin" class="hidden space-y-5 py-2">
+            <!-- Operational Status -->
+            <div class="flex justify-center">
+                <span class="inline-flex items-center gap-2 bg-emerald-950/60 border border-emerald-800/50 text-brand-green text-xs font-semibold px-3 py-1.5 rounded-full">
+                    <span class="w-2 h-2 rounded-full bg-brand-green animate-pulse"></span>
+                    Deriv API Operational
+                </span>
+            </div>
+
+            <!-- Title Header -->
+            <div class="text-center space-y-2">
+                <div class="flex justify-center mb-2">
+                    <div class="w-12 h-12 rounded-2xl bg-brand-green/10 flex items-center justify-center text-brand-green text-2xl">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                </div>
+                <h2 class="text-2xl font-extrabold text-white">Market Sniper Tool</h2>
+                <h3 class="text-lg font-bold text-gray-300">Trading Intelligence Suite</h3>
+                <p class="text-xs text-gray-400 leading-relaxed max-w-xs mx-auto">
+                    Connect your Deriv trading account to unlock live predictive analytics and high-accuracy digit insights.
+                </p>
+            </div>
+
+            <!-- Main Sign-In Button -->
+            <div>
+                <button onclick="triggerDerivOAuth()" class="w-full bg-brand-blue hover:bg-brand-blueHover text-white font-bold py-3.5 px-4 rounded-xl text-base transition-all shadow-lg shadow-brand-blue/20 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-right-to-bracket"></i> Sign in with Deriv
+                </button>
+            </div>
+
+            <!-- Features List -->
+            <div class="space-y-3 pt-2">
+                <div class="bg-brand-card border border-brand-border rounded-xl p-4 flex gap-3.5 items-start">
+                    <div class="w-9 h-9 rounded-lg bg-brand-blue/10 flex-shrink-0 flex items-center justify-center text-brand-blue text-base">
+                        <i class="fa-solid fa-bolt-lightning"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-bold text-white">Real-time Signal Engine</h4>
+                        <p class="text-xs text-gray-400 mt-0.5">Algorithmic digit probability & pattern predictions for Volatility Indices.</p>
+                    </div>
+                </div>
+
+                <div class="bg-brand-card border border-brand-border rounded-xl p-4 flex gap-3.5 items-start">
+                    <div class="w-9 h-9 rounded-lg bg-emerald-500/10 flex-shrink-0 flex items-center justify-center text-brand-green text-base">
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-bold text-white">Direct Deriv OAuth</h4>
+                        <p class="text-xs text-gray-400 mt-0.5">Secure token authentication without storing sensitive account passwords.</p>
+                    </div>
+                </div>
+
+                <div class="bg-brand-card border border-brand-border rounded-xl p-4 flex gap-3.5 items-start">
+                    <div class="w-9 h-9 rounded-lg bg-purple-500/10 flex-shrink-0 flex items-center justify-center text-purple-400 text-base">
+                        <i class="fa-solid fa-arrows-rotate"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-bold text-white">Flexible Account Switching</h4>
+                        <p class="text-xs text-gray-400 mt-0.5">Seamlessly toggle between Real and Demo trading accounts in one click.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Risk Disclaimer Box -->
+            <div class="bg-red-950/30 border border-red-900/40 rounded-xl p-4 space-y-2 text-xs">
+                <div class="flex items-center gap-2 text-red-400 font-bold uppercase tracking-wider text-[11px]">
+                    <i class="fa-solid fa-triangle-exclamation"></i> Risk Disclaimer
+                </div>
+                <p class="text-gray-400 leading-relaxed text-[11px]">
+                    Deriv offers complex derivatives, such as options and contracts for difference ("CFDs"). These products may not be suitable for all clients, and trading them puts you at risk. Please make sure that you understand the following risks before trading Deriv products: a) you may lose some or all of the money you invest in the trade, b) if your trade involves currency conversion, exchange rates will affect your profit and loss. You should never trade with borrowed money or with money that you cannot afford to lose. By signing in you also confirm you have read and accepted our <span class="text-brand-green underline cursor-pointer">Terms of Service & Risk Disclaimer</span>. All losses from automated systems connected to this platform are your sole responsibility.
+                </p>
+            </div>
+
+            <!-- Security Footer -->
+            <div class="text-center space-y-1 pt-1">
+                <div class="text-[11px] text-gray-500 flex items-center justify-center gap-1.5">
+                    <i class="fa-solid fa-shield-halved"></i> Encrypted & Isolated Token Session
+                </div>
+                <div>
+                    <button onclick="showHelpModal()" class="text-xs text-brand-blue hover:underline font-medium">Need assistance?</button>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ========================================== -->
+        <!-- STEP 3: LOADING / CONNECTING SCREEN        -->
+        <!-- ========================================== -->
+        <section id="page-loading" class="hidden space-y-6 py-12 text-center">
+            <div class="flex flex-col items-center justify-center space-y-4">
+                <div class="relative w-16 h-16 flex items-center justify-center">
+                    <div class="w-14 h-14 border-4 border-brand-green/20 border-t-brand-green rounded-full animate-spin"></div>
+                </div>
+                <h3 class="text-lg font-bold text-white">Completing sign in...</h3>
+            </div>
+
+            <!-- Risk Disclaimer Box during Loading -->
+            <div class="bg-brand-card border border-yellow-500/30 rounded-xl p-4 text-left space-y-2 text-xs max-w-xs mx-auto">
+                <div class="text-yellow-500 font-bold uppercase tracking-wider text-[11px] flex items-center gap-1.5">
+                    <i class="fa-solid fa-circle-exclamation"></i> Risk Disclaimer
+                </div>
+                <p class="text-gray-400 leading-relaxed text-[11px]">
+                    Deriv offers complex derivatives, such as options and contracts for difference ("CFDs"). These products may not be suitable for all clients, and trading them puts you at risk. Please make sure that you understand the risks before trading.
+                </p>
+            </div>
+        </section>
+
+
+        <!-- ========================================== -->
+        <!-- STEP 4: DASHBOARD                          -->
+        <!-- ========================================== -->
+        <section id="page-dashboard" class="hidden space-y-4 py-2">
+            <!-- Account & Status Bar -->
+            <div class="bg-brand-card border border-brand-border rounded-xl p-3 flex items-center justify-between text-xs">
+                <div class="flex items-center gap-2">
+                    <div class="w-2.5 h-2.5 rounded-full bg-brand-green animate-pulse"></div>
+                    <span class="font-bold text-white text-sm">Market Sniper</span>
+                    <span class="bg-brand-green/10 text-brand-green px-2 py-0.5 rounded text-[10px] font-bold">Active</span>
+                </div>
+                <div class="flex items-center gap-2 text-gray-400">
+                    <span id="display-user-acct" class="bg-brand-dark px-2 py-1 rounded font-mono text-[11px] text-gray-300 border border-brand-border">
+                        CR------
+                    </span>
+                    <button onclick="triggerDerivOAuth()" title="Switch / Re-login" class="hover:text-white transition-colors p-1">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </button>
+                    <button onclick="logout()" title="Disconnect" class="hover:text-red-400 transition-colors p-1">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Category Tabs Nav (Horizontal Scroll) -->
+            <div class="flex gap-2 overflow-x-auto custom-scrollbar pb-1 text-xs font-semibold">
+                <button id="tab-btn-matches" onclick="switchDashboardTab('matches')" class="flex-shrink-0 flex items-center gap-1.5 bg-brand-card border border-brand-border text-gray-400 px-3.5 py-2.5 rounded-xl transition-all">
+                    <i class="fa-solid fa-lock text-[10px] text-yellow-500"></i> Matches
+                </button>
+                <button id="tab-btn-evenodd" onclick="switchDashboardTab('evenodd')" class="flex-shrink-0 flex items-center gap-1.5 bg-brand-card border border-brand-border text-gray-400 px-3.5 py-2.5 rounded-xl transition-all">
+                    <i class="fa-solid fa-lock text-[10px] text-yellow-500"></i> Even / Odd
+                </button>
+                <button id="tab-btn-overunder" onclick="switchDashboardTab('overunder')" class="flex-shrink-0 flex items-center gap-1.5 bg-brand-card border border-brand-border text-gray-400 px-3.5 py-2.5 rounded-xl transition-all">
+                    <i class="fa-solid fa-lock text-[10px] text-yellow-500"></i> Over / Under
+                </button>
+                <button id="tab-btn-higherlower" onclick="switchDashboardTab('higherlower')" class="flex-shrink-0 flex items-center gap-1.5 bg-brand-card border border-brand-border text-gray-400 px-3.5 py-2.5 rounded-xl transition-all">
+                    <i class="fa-solid fa-lock text-[10px] text-yellow-500"></i> Higher / Lower
+                </button>
+                <button id="tab-btn-risefall" onclick="switchDashboardTab('risefall')" class="flex-shrink-0 flex items-center gap-1.5 bg-brand-green text-black px-4 py-2.5 rounded-xl font-bold transition-all shadow-md shadow-brand-green/10">
+                    Rise / Fall
+                </button>
+            </div>
+
+            <!-- VIEW A: UNLOCKED LIVE TAB (Rise / Fall) -->
+            <div id="view-risefall" class="space-y-3">
+                
+                <!-- Volatility 10 Card -->
+                <div class="bg-brand-card border border-brand-border rounded-2xl p-4 text-center space-y-3 relative overflow-hidden">
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="font-bold text-white text-sm">Volatility 10</span>
+                        <span class="text-brand-green font-bold text-[10px] flex items-center gap-1">
+                            <span class="w-1.5 h-1.5 rounded-full bg-brand-green animate-ping"></span> LIVE
+                        </span>
+                    </div>
+                    <div class="text-[11px] text-gray-500 font-mono">R_10</div>
+                    <div class="py-2 flex flex-col items-center justify-center">
+                        <div class="w-16 h-16 rounded-full bg-brand-green/20 border-2 border-brand-green flex items-center justify-center text-brand-green text-2xl mb-2">
+                            <i class="fa-solid fa-arrow-up"></i>
+                        </div>
+                        <div class="text-xs text-yellow-500 font-bold">Confidence: <span id="conf-r10">83%</span></div>
+                    </div>
+                    <button class="w-full bg-transparent border border-brand-green/50 text-brand-green font-bold py-2 rounded-xl text-xs hover:bg-brand-green/10 transition-all">
+                        <i class="fa-solid fa-arrow-up text-[10px]"></i> RISE
+                    </button>
+                </div>
+
+                <!-- Volatility 25 Card -->
+                <div class="bg-brand-card border border-brand-border rounded-2xl p-4 text-center space-y-3 relative overflow-hidden">
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="font-bold text-white text-sm">Volatility 25</span>
+                        <span class="text-brand-green font-bold text-[10px] flex items-center gap-1">
+                            <span class="w-1.5 h-1.5 rounded-full bg-brand-green animate-ping"></span> LIVE
+                        </span>
+                    </div>
+                    <div class="text-[11px] text-gray-500 font-mono">R_25</div>
+                    <div class="py-2 flex flex-col items-center justify-center">
+                        <div class="w-16 h-16 rounded-full bg-brand-green/20 border-2 border-brand-green flex items-center justify-center text-brand-green text-2xl mb-2">
+                            <i class="fa-solid fa-arrow-up"></i>
+                        </div>
+                        <div class="text-xs text-yellow-500 font-bold">Confidence: <span id="conf-r25">71%</span></div>
+                    </div>
+                    <button class="w-full bg-transparent border border-brand-green/50 text-brand-green font-bold py-2 rounded-xl text-xs hover:bg-brand-green/10 transition-all">
+                        <i class="fa-solid fa-arrow-up text-[10px]"></i> RISE
+                    </button>
+                </div>
+
+                <!-- Volatility 50 Card -->
+                <div class="bg-brand-card border border-brand-border rounded-2xl p-4 text-center space-y-3 relative overflow-hidden">
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="font-bold text-white text-sm">Volatility 50</span>
+                        <span class="text-brand-green font-bold text-[10px] flex items-center gap-1">
+                            <span class="w-1.5 h-1.5 rounded-full bg-brand-green animate-ping"></span> LIVE
+                        </span>
+                    </div>
+                    <div class="text-[11px] text-gray-500 font-mono">R_50</div>
+                    <div class="py-2 flex flex-col items-center justify-center">
